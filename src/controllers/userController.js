@@ -5,8 +5,12 @@ const userService = require('../services/userService');
 
 exports.createUser = asyncHandler(async (req, res, next) => {
   const { username, password } = req.body;
-  const user = await userService.createUser({ username, password });
-  res.status(201).json(user);
+  if (username && password) {
+    const user = await userService.createUser({ username, password });
+    res.status(201).json(user);
+  } else {
+    res.status(400).json({error: "Username and password are required fields."})
+  }
 });
 
 exports.loginUser = asyncHandler(async (req, res, next) => {
