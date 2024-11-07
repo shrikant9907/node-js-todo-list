@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./src/config/db');
-const todoRoutes = require('./src/routes/todoRoutes'); 
+const todoRoutes = require('./src/routes/todoRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const errorHandlerMiddleware = require('./src/middlewares/errorHandlerMiddleware');
 const authenticateUser = require('./src/middlewares/authMiddleware');
@@ -15,8 +15,8 @@ connectDB();
 app.use(express.json());
 
 // Routes
-app.use('/todos', authenticateUser, todoRoutes);
-app.use('/auth', authRoutes);
+app.use('/api/todos', authenticateUser, todoRoutes);
+app.use('/api/auth', authRoutes);
 
 // Error handling middleware
 app.use(errorHandlerMiddleware);

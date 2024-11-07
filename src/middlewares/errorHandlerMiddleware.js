@@ -1,16 +1,42 @@
 const errorHandlerMiddleware = (err, req, res, next) => {
- // Default to 500 Internal Server Error if no status code is set
- const statusCode = err.statusCode || 500;
+  console.error(err.stack);  // Logs the stack trace for debugging
 
- // Log the error for debugging purposes
- console.error(err.stack);
+  // Handle specific errors for better responses
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      error: 'Validation Error',
+      message: err.message,
+      details: err.errors,
+    });
+  }
 
- // Send JSON response
- res.status(statusCode).json({
-   error: {
-     message: err.message || 'Internal Server Error',
-   },
- });
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      error: 'Invalid Data',
+      message: `Invalid value for field ${err.path}`,
+    });
+  }
+
+  if (err.status === 404) {
+    return res.status(404).json({
+      error: 'Not Found',
+      message: err.message || 'Resource not found',
+    });
+  }
+
+  // Handle custom errors
+  if (err.custom && err.statusCode) {
+    return res.status(err.statusCode).json({
+      error: err.custom,
+      message: err.message,
+    });
+  }
+
+  // General server errors (default case)
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: err.message || 'An unexpected error occurred',
+  });
 };
 
 module.exports = errorHandlerMiddleware;
