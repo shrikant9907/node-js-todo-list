@@ -9,6 +9,10 @@ exports.createTodo = async ({ title, description }) => {
   return await newTodo.save();
 };
 
+exports.getTodoById = async (id) => {
+  return await Todo.findById(id);
+};
+
 exports.updateTodo = async (id, { title, description, completed }) => {
   const updatedTodo = await Todo.findByIdAndUpdate(
     id,
@@ -19,6 +23,11 @@ exports.updateTodo = async (id, { title, description, completed }) => {
     throw new Error('Todo not found');
   }
   return updatedTodo;
+};
+
+exports.patchTodo = async (id, updateFields) => {
+  const todo = await Todo.findByIdAndUpdate(id, updateFields, { new: true, runValidators: true });
+  return todo;
 };
 
 exports.deleteTodo = async (id) => {

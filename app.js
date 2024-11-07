@@ -13,7 +13,7 @@ connectDB();
 app.use(express.json());
 
 // Routes
-app.use('/todos', todoRoutes);
+app.use('/api/todos', todoRoutes);
 
 // Error handling middleware
 app.use(errorHandlerMiddleware);
