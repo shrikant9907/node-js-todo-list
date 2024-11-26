@@ -1,0 +1,19 @@
+{
+    "env": {
+      "node": true,
+      "es2021": true
+    },
+    "extends": [
+      "eslint:recommended",          // Use ESLint's recommended rules
+      "plugin:node/recommended",     // Use Node.js specific rules
+      "plugin:promise/recommended",  // Use best practices for Promises
+      "prettier"                     // Disable rules that conflict with Prettier
+    ],
+    "plugins": [
+      "node",        // Use the Node.js plugin
+      "promise"      // Use the Promise plugin for better Promise handling
+    ],
+    "rules": {
+    }
+  }
+  
