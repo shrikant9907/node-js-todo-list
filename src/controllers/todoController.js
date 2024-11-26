@@ -20,8 +20,19 @@ exports.createTodo = asyncHandler(async ({ body: { title, description } }, res) 
     return sendResponse(res, StatusCodes.BAD_REQUEST, 'Title and description are required');
   }
 
-  const newTodo = await Todo.create({ title, description });
-  return sendResponse(res, StatusCodes.CREATED, 'Todo created successfully', newTodo);
+  try {
+    // Attempt to create a new Todo
+    const newTodo = await Todo.create({ title, description });
+    return sendResponse(res, StatusCodes.CREATED, 'Todo created successfully', newTodo);
+  } catch (error) {
+    // Handle validation or other errors
+    if (error.message && error.message.includes('title must be unique')) {
+      return sendResponse(res, StatusCodes.BAD_REQUEST, error.message);
+    }
+
+    // For any other errors
+    return sendResponse(res, StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong', error);
+  }
 });
 
 // Get a todo by ID

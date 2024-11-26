@@ -12,5 +12,6 @@ const sendResponse = (res, statusCode, message, data = null) => {
 };
 
 module.exports = {
-    validateObjectId
+    validateObjectId,
+    sendResponse
 }
